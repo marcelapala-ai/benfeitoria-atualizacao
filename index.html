@@ -1,205 +1,681 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benfeitorias Centauro | Dashboard Executivo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .centauro-red { color: #E30613; }
-        .bg-centauro-red { background-color: #E30613; }
-        .card-hover:hover { transform: translateY(-5px); transition: all 0.3s ease; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projeto de Benfeitorias | Centauro</title>
+  <style>
+    :root {
+      --red: #c8102e;
+      --red-dark: #a50d26;
+      --white: #ffffff;
+      --gray-50: #f7f7f8;
+      --gray-100: #efeff1;
+      --gray-200: #e1e3e6;
+      --gray-400: #8a8f98;
+      --gray-700: #3c4148;
+      --gray-900: #1f2328;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --radius: 18px;
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      line-height: 1.5;
+    }
+
+    .container {
+      width: min(92%, var(--max-width));
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ffffff 0%, #f5f5f6 100%);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .hero {
+      min-height: 72vh;
+      display: flex;
+      align-items: center;
+      padding: 64px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(200, 16, 46, 0.08);
+      color: var(--red);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.08;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: var(--gray-700);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin-bottom: 28px;
+    }
+
+    .cta {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: 0.25s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .cta:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+
+    .hero-card {
+      background: var(--white);
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-100);
+    }
+
+    .hero-card h3 {
+      font-size: 1rem;
+      color: var(--gray-700);
+      margin-bottom: 18px;
+    }
+
+    .hero-highlight {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .mini-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-100);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .mini-card .label {
+      font-size: 0.85rem;
+      color: var(--gray-400);
+      margin-bottom: 6px;
+    }
+
+    .mini-card .value {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--gray-900);
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .section-subtitle {
+      color: var(--gray-700);
+      max-width: 800px;
+      margin-bottom: 28px;
+    }
+
+    .kpis-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-100);
+      transition: 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+    }
+
+    .card-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--gray-900);
+    }
+
+    .card-note {
+      margin-top: 8px;
+      color: var(--gray-700);
+      font-size: 0.95rem;
+    }
+
+    .status-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .chart-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-100);
+    }
+
+    .bars {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 6px;
+    }
+
+    .bar-item {
+      display: grid;
+      grid-template-columns: 180px 1fr 48px;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .bar-label {
+      font-size: 0.95rem;
+      color: var(--gray-700);
+      font-weight: 600;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 14px;
+      background: var(--gray-100);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--red), #ef405b);
+      transition: width 1.2s ease;
+    }
+
+    .bar-value {
+      text-align: right;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .summary-item {
+      background: var(--gray-50);
+      border-left: 4px solid var(--red);
+      border-radius: 12px;
+      padding: 16px;
+      color: var(--gray-700);
+    }
+
+    .equip-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .equipment-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .equipment-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      color: var(--gray-700);
+      font-size: 0.95rem;
+    }
+
+    .progress {
+      width: 100%;
+      height: 12px;
+      background: var(--gray-100);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--red), #ef405b);
+      border-radius: 999px;
+      transition: width 1.2s ease;
+    }
+
+    .insights {
+      background: var(--white);
+      border: 1px solid rgba(200, 16, 46, 0.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .insights ul {
+      margin-top: 16px;
+      padding-left: 18px;
+    }
+
+    .insights li {
+      margin-bottom: 12px;
+      color: var(--gray-700);
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      border-top: 1px solid var(--gray-200);
+      color: var(--gray-700);
+      text-align: center;
+      background: #fff;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: 0.7s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .status-layout,
+      .kpis-grid,
+      .equip-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bar-item {
+        grid-template-columns: 1fr;
+      }
+
+      .bar-value {
+        text-align: left;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 46px 0;
+      }
+
+      .hero {
+        padding: 42px 0;
+      }
+
+      .hero-highlight {
+        grid-template-columns: 1fr;
+      }
+
+      .card-value {
+        font-size: 1.9rem;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body>
+  <header>
+    <div class="container hero">
+      <div class="hero-grid">
+        <div class="fade-up">
+          <span class="tag">Projeto Centauro</span>
+          <h1>Projeto de Benfeitorias em Loja</h1>
+          <p>
+            Acompanhamento executivo da instalação de telas e do recebimento de equipamentos nas lojas Centauro,
+            com leitura rápida da evolução do projeto e visão consolidada para tomada de decisão.
+          </p>
+          <a href="#status" class="cta">Ver status do projeto</a>
+        </div>
 
-    <header class="bg-white border-b border-gray-100 pt-20 pb-28 px-6 text-center">
-        <div class="max-w-5xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-bold uppercase tracking-widest mb-8">
-                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Corporate Dashboard
+        <div class="hero-card fade-up">
+          <h3>Resumo rápido</h3>
+          <div class="hero-highlight">
+            <div class="mini-card">
+              <div class="label">Lojas monitoradas</div>
+              <div class="value counter" data-target="208">0</div>
             </div>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
-                Projeto de Benfeitorias em Loja
-            </h1>
-            <p class="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto mb-10 leading-relaxed">
-                Acompanhamento executivo da instalação de telas e do recebimento de equipamentos nas lojas Centauro. Painel consolidado para leitura rápida da evolução do projeto.
-            </p>
-            <a href="#status" class="bg-centauro-red text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl shadow-red-200 hover:bg-red-700 transition-all inline-block">
-                Ver status do projeto
-            </a>
+            <div class="mini-card">
+              <div class="label">Instalações concluídas</div>
+              <div class="value counter" data-target="28">0</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">Instalações agendadas</div>
+              <div class="value counter" data-target="16">0</div>
+            </div>
+            <div class="mini-card">
+              <div class="label">Categorias monitoradas</div>
+              <div class="value">4</div>
+            </div>
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 
-    <section class="max-w-6xl mx-auto -mt-16 px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center card-hover">
-            <div class="bg-red-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
-                <i data-lucide="store"></i>
-            </div>
-            <span class="text-4xl font-bold text-slate-900">208</span>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mt-1">Lojas Monitoradas</h3>
+  <main>
+    <section>
+      <div class="container">
+        <h2 class="section-title fade-up">Visão Geral</h2>
+        <p class="section-subtitle fade-up">
+          Indicadores principais do acompanhamento do projeto, reunindo volume monitorado,
+          andamento da instalação das telas e visão macro das frentes em loja.
+        </p>
+
+        <div class="kpis-grid">
+          <div class="card fade-up">
+            <div class="card-title">Total de lojas monitoradas</div>
+            <div class="card-value counter" data-target="208">0</div>
+            <div class="card-note">Base do controle de equipamentos em loja.</div>
+          </div>
+
+          <div class="card fade-up">
+            <div class="card-title">Instalações concluídas</div>
+            <div class="card-value counter" data-target="28">0</div>
+            <div class="card-note">Maior concentração atual do projeto.</div>
+          </div>
+
+          <div class="card fade-up">
+            <div class="card-title">Instalações agendadas</div>
+            <div class="card-value counter" data-target="16">0</div>
+            <div class="card-note">Frente relevante em andamento.</div>
+          </div>
+
+          <div class="card fade-up">
+            <div class="card-title">Equipamentos monitorados</div>
+            <div class="card-value">4</div>
+            <div class="card-note">Antena de WI-FI, ROKU + HDMI, ROKU e Impressoras.</div>
+          </div>
         </div>
-        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center card-hover">
-            <div class="bg-red-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
-                <i data-lucide="check-circle"></i>
-            </div>
-            <span class="text-4xl font-bold text-slate-900">28</span>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mt-1">Instalações Concluídas</h3>
-        </div>
-        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center card-hover">
-            <div class="bg-red-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
-                <i data-lucide="calendar"></i>
-            </div>
-            <span class="text-4xl font-bold text-slate-900">16</span>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mt-1">Instalações Agendadas</h3>
-        </div>
+      </div>
     </section>
 
-    <section id="status" class="max-w-6xl mx-auto py-24 px-6">
-        <div class="flex flex-col lg:flex-row gap-12 items-start">
-            <div class="w-full lg:w-2/3">
-                <h2 class="text-3xl font-bold text-slate-900 mb-2">Status da Instalação das Telas</h2>
-                <p class="text-slate-500 mb-10">Visão consolidada do andamento da implantação nas unidades.</p>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <canvas id="telasChart" height="150"></canvas>
-                </div>
+    <section id="status">
+      <div class="container">
+        <h2 class="section-title fade-up">Status da Instalação das Telas</h2>
+        <p class="section-subtitle fade-up">
+          Visão consolidada do andamento da implantação das telas nas lojas monitoradas,
+          permitindo leitura executiva rápida sobre o estágio atual de execução.
+        </p>
+
+        <div class="status-layout">
+          <div class="chart-card fade-up">
+            <div class="bars">
+              <div class="bar-item">
+                <div class="bar-label">Concluído</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="100"></div></div>
+                <div class="bar-value">28</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Agendado</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="57.1"></div></div>
+                <div class="bar-value">16</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Cancelado</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="42.9"></div></div>
+                <div class="bar-value">12</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Não iniciado</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="17.9"></div></div>
+                <div class="bar-value">5</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Não se aplica</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="7.1"></div></div>
+                <div class="bar-value">2</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Pendência ENG</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="10.7"></div></div>
+                <div class="bar-value">3</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Pendência Tech</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="3.6"></div></div>
+                <div class="bar-value">1</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Processo de compra</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="14.3"></div></div>
+                <div class="bar-value">4</div>
+              </div>
+
+              <div class="bar-item">
+                <div class="bar-label">Liberado</div>
+                <div class="bar-track"><div class="bar-fill" data-percent="3.6"></div></div>
+                <div class="bar-value">1</div>
+              </div>
             </div>
-            <div class="w-full lg:w-1/3 pt-12">
-                <div class="bg-slate-900 text-white p-8 rounded-2xl">
-                    <h4 class="text-red-500 font-bold uppercase tracking-widest text-xs mb-6">Resumo Executivo</h4>
-                    <ul class="space-y-4 text-sm">
-                        <li class="flex gap-3">
-                            <span class="text-red-500 mt-1">●</span>
-                            <p>A maior concentração do projeto está entre lojas <strong>concluídas e agendadas</strong>.</p>
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="text-slate-500 mt-1">●</span>
-                            <p>Pontos de atenção em cancelamentos e processos de compra exigem monitoria.</p>
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="text-slate-500 mt-1">●</span>
-                            <p>Leitura clara para acompanhamento gerencial e suporte à decisão.</p>
-                        </li>
-                    </ul>
-                </div>
+          </div>
+
+          <div class="chart-card fade-up">
+            <div class="summary-list">
+              <div class="summary-item">
+                A maior concentração do projeto está nas frentes <strong>concluídas</strong> e <strong>agendadas</strong>.
+              </div>
+              <div class="summary-item">
+                O volume de <strong>cancelamentos</strong> ainda representa um ponto de atenção no acompanhamento.
+              </div>
+              <div class="summary-item">
+                Existem frentes complementares que exigem monitoramento, como <strong>pendências</strong> e <strong>processos de compra</strong>.
+              </div>
+              <div class="summary-item">
+                A proposta visual desta página prioriza leitura rápida, clareza e apoio à tomada de decisão.
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section class="bg-white py-24 border-y border-gray-100 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Status Macro de Equipamentos</h2>
-                <p class="text-slate-500">Recebimento por categoria (Base: 208 lojas)</p>
+    <section>
+      <div class="container">
+        <h2 class="section-title fade-up">Status Macro de Equipamentos em Loja</h2>
+        <p class="section-subtitle fade-up">
+          Visão consolidada do recebimento dos principais equipamentos monitorados no projeto de benfeitorias.
+          Base total: <strong>208 lojas</strong>.
+        </p>
+
+        <div class="equip-grid">
+          <div class="card fade-up">
+            <div class="equipment-name">Antena de WI-FI</div>
+            <div class="equipment-meta">
+              <span><strong class="counter" data-target="70">0</strong> lojas</span>
+              <span>33,7%</span>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="p-6 border border-slate-100 rounded-xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <i data-lucide="wifi" class="text-slate-400"></i>
-                        <span class="font-bold text-xl text-slate-900">70</span>
-                    </div>
-                    <h4 class="font-semibold text-slate-700 mb-4 text-sm">Antena de WI-FI</h4>
-                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div class="bg-centauro-red h-full rounded-full" style="width: 33.6%"></div>
-                    </div>
-                    <p class="text-[10px] uppercase font-bold text-red-600 mt-2">33.6% Cobertura</p>
-                </div>
-                <div class="p-6 border border-slate-100 rounded-xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <i data-lucide="monitor" class="text-slate-400"></i>
-                        <span class="font-bold text-xl text-slate-900">35</span>
-                    </div>
-                    <h4 class="font-semibold text-slate-700 mb-4 text-sm">ROKU + HDMI</h4>
-                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div class="bg-centauro-red h-full rounded-full" style="width: 16.8%"></div>
-                    </div>
-                    <p class="text-[10px] uppercase font-bold text-red-600 mt-2">16.8% Cobertura</p>
-                </div>
-                <div class="p-6 border border-slate-100 rounded-xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <i data-lucide="tv" class="text-slate-400"></i>
-                        <span class="font-bold text-xl text-slate-900">39</span>
-                    </div>
-                    <h4 class="font-semibold text-slate-700 mb-4 text-sm">ROKU</h4>
-                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div class="bg-centauro-red h-full rounded-full" style="width: 18.7%"></div>
-                    </div>
-                    <p class="text-[10px] uppercase font-bold text-red-600 mt-2">18.7% Cobertura</p>
-                </div>
-                <div class="p-6 border border-slate-100 rounded-xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <i data-lucide="printer" class="text-slate-400"></i>
-                        <span class="font-bold text-xl text-slate-900">52</span>
-                    </div>
-                    <h4 class="font-semibold text-slate-700 mb-4 text-sm">Impressoras</h4>
-                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div class="bg-centauro-red h-full rounded-full" style="width: 25.0%"></div>
-                    </div>
-                    <p class="text-[10px] uppercase font-bold text-red-600 mt-2">25.0% Cobertura</p>
-                </div>
+            <div class="progress"><div class="progress-fill" data-percent="33.7"></div></div>
+            <div class="card-note">Categoria com maior cobertura entre os equipamentos monitorados.</div>
+          </div>
+
+          <div class="card fade-up">
+            <div class="equipment-name">ROKU + HDMI</div>
+            <div class="equipment-meta">
+              <span><strong class="counter" data-target="35">0</strong> lojas</span>
+              <span>16,8%</span>
             </div>
+            <div class="progress"><div class="progress-fill" data-percent="16.8"></div></div>
+            <div class="card-note">Cobertura inicial em relação à base total monitorada.</div>
+          </div>
+
+          <div class="card fade-up">
+            <div class="equipment-name">ROKU</div>
+            <div class="equipment-meta">
+              <span><strong class="counter" data-target="39">0</strong> lojas</span>
+              <span>18,8%</span>
+            </div>
+            <div class="progress"><div class="progress-fill" data-percent="18.8"></div></div>
+            <div class="card-note">Distribuição em ritmo intermediário dentro da operação.</div>
+          </div>
+
+          <div class="card fade-up">
+            <div class="equipment-name">Impressoras</div>
+            <div class="equipment-meta">
+              <span><strong class="counter" data-target="52">0</strong> lojas</span>
+              <span>25,0%</span>
+            </div>
+            <div class="progress"><div class="progress-fill" data-percent="25"></div></div>
+            <div class="card-note">Cobertura relevante, abaixo apenas da frente de WI-FI.</div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section class="max-w-4xl mx-auto py-24 px-6">
-        <div class="bg-red-50 border-l-4 border-red-600 p-10 rounded-r-xl">
-            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <i data-lucide="text-quote" class="text-red-600"></i> Leitura Executiva
-            </h2>
-            <div class="space-y-4 text-slate-700 leading-relaxed italic">
-                <p>• “A implantação das telas já apresenta avanço relevante nas frentes concluídas e agendadas.”</p>
-                <p>• “Os cancelamentos e pendências ainda exigem acompanhamento próximo para evolução do cronograma.”</p>
-                <p>• “No recebimento de equipamentos, as categorias apresentam níveis distintos de cobertura entre as lojas.”</p>
-                <p class="font-bold text-slate-900 not-italic uppercase text-sm mt-6">Acompanhamento Gerencial Ativo</p>
-            </div>
+    <section>
+      <div class="container">
+        <div class="insights fade-up">
+          <h2 class="section-title">Leitura Executiva</h2>
+          <p class="section-subtitle" style="margin-bottom: 0;">
+            Síntese gerencial para acompanhamento do projeto.
+          </p>
+          <ul>
+            <li>A implantação das telas já apresenta avanço relevante nas frentes concluídas e agendadas.</li>
+            <li>Os cancelamentos e pendências ainda exigem acompanhamento próximo para evolução do cronograma.</li>
+            <li>No recebimento de equipamentos, as categorias apresentam níveis distintos de cobertura entre as lojas.</li>
+            <li>A página foi estruturada para transmitir controle, clareza e leitura executiva do projeto.</li>
+          </ul>
         </div>
+      </div>
     </section>
+  </main>
 
-    <footer class="bg-slate-50 border-t border-slate-200 py-10 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400 font-medium">
-            <div class="flex items-center gap-2">
-                <div class="w-6 h-6 bg-centauro-red rounded flex items-center justify-center text-white font-black text-[10px]">C</div>
-                <span>Projeto de Benfeitorias | Centauro</span>
-            </div>
-            <p>Relatório Consolidado • Atualizado em Tempo Real</p>
-        </div>
-    </footer>
+  <footer>
+    <div class="container">
+      <p><strong>Projeto de Benfeitorias | Centauro</strong></p>
+      <p>Visão consolidada de acompanhamento</p>
+    </div>
+  </footer>
 
-    <script>
-        // Inicializar ícones
-        lucide.createIcons();
+  <script>
+    const animateCounters = () => {
+      const counters = document.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        if (!target) return;
 
-        // Configuração do Gráfico
-        const ctx = document.getElementById('telasChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Concluído', 'Agendado', 'Cancelado', 'Não iniciado', 'Não se aplica', 'Pend. ENG', 'Pend. Tech', 'Processo Compra', 'Liberado'],
-                datasets: [{
-                    label: 'Quantidade de Lojas',
-                    data: [28, 16, 12, 5, 2, 3, 1, 4, 1],
-                    backgroundColor: [
-                        '#E30613', '#4B5563', '#9CA3AF', '#D1D5DB', 
-                        '#E5E7EB', '#F87171', '#FCA5A5', '#F3F4F6', '#10B981'
-                    ],
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    x: { grid: { display: false } },
-                    y: { grid: { display: false } }
-                }
-            }
+        let current = 0;
+        const increment = Math.max(1, Math.ceil(target / 45));
+
+        const update = () => {
+          current += increment;
+          if (current >= target) {
+            counter.textContent = target;
+          } else {
+            counter.textContent = current;
+            requestAnimationFrame(update);
+          }
+        };
+
+        update();
+      });
+    };
+
+    const animateBars = () => {
+      document.querySelectorAll('.bar-fill, .progress-fill').forEach(el => {
+        const percent = el.getAttribute('data-percent');
+        setTimeout(() => {
+          el.style.width = percent + '%';
+        }, 200);
+      });
+    };
+
+    const revealOnScroll = () => {
+      const items = document.querySelectorAll('.fade-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          }
         });
-    </script>
+      }, { threshold: 0.12 });
+
+      items.forEach(item => observer.observe(item));
+    };
+
+    window.addEventListener('load', () => {
+      animateCounters();
+      animateBars();
+      revealOnScroll();
+    });
+  </script>
 </body>
 </html>
